@@ -137,7 +137,7 @@ function addRole(){
 
                   {
                       type: 'list',
-                      message: "Please select the new role’s department.",
+                      message: "Please select the new role's department.",
                       choices : deptList,
                       name: 'newRoleDept',
                     }
@@ -162,7 +162,6 @@ function addRole(){
                     name : role.title,
                     value: role.id
             }))
-    
             inquirer.prompt ([
                 
     {
@@ -176,16 +175,16 @@ function addRole(){
                 name: 'lastname',
               },
     
-    {
+            {
                         type: 'list',
-                        message: "Please select Employee’s Role.",
+                        message: "Please select Employee's Role.",
                         choices : roleList,
                         name: 'empRole',
                       },
                       {
                           type: 'list',
-                          message: "Please select the employee's new role ID.",
-                          choices : manList,
+                          message: "Please select the employee's Manager.",
+                          choices : [...manList, "null"],
                           name: 'empMan',
                         }
             ])
@@ -202,7 +201,6 @@ function addRole(){
 // fnction to update an employee's role
 function updateRole(){
     db.query(`Select * from employee;`, function(err, results){
-        console.log(results)
         var empList = results.map((employee)=> ({
                 name : employee.first_name + " " + employee.last_name,
                 value : employee.id
