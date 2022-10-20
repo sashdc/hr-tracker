@@ -37,6 +37,7 @@ const openingQuest = [
       "Add a role",
       "Add an employee",
       "Update an employee role",
+      "Check budget by department",
       "Quit",
     ],
     name: "starting",
@@ -69,6 +70,8 @@ function init() {
       addEmp();
     } else if (choice === "Update an employee role") {
       updateRole();
+    } else if (choice === "Check budget by department") {
+      deptBudget();
     } else if (choice === "Quit") {
       exit();
     }
@@ -228,6 +231,37 @@ function addEmp() {
           );
         });
     });
+  });
+}
+
+function deptBudget() {
+  db.query(`Select * from department;`, function (err, results) {
+    var deptList = results.map((department) => ({
+      name: department.name,
+      value: department.id,
+    }));
+
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: "Please select the department.",
+          choices: deptList,
+          name: "deptBudg",
+        },
+      ])
+      .then((answers) => {
+        db.query(
+          `select sum(salary) as "Department Budget" from role where department_id = ${answers.deptBudg};
+    `,
+          function (err, results) {
+            console.table(results);
+            setTimeout(() => {
+              init();
+            }, 1000);
+          }
+        );
+      });
   });
 }
 

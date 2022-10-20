@@ -48,3 +48,6 @@ VALUES("", "", "");
 UPDATE employee
 SET role_id = ?
 WHERE id = ?
+
+-- View budget for department
+select sum(salary) from role where department_id = ?;
