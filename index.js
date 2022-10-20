@@ -171,15 +171,55 @@ function addRole(){
     } )
     }
 
-function addEmp(){
-    inquirer.prompt (newEmp)
-    .then(answers => {
-        db.query(`INSERT into employee(first_name, last_name, role_id, manager_id)
-        VALUES("${answers.firstname}","${answers.lastname}","${answers.role}", "${answers.manager}");`, function (err, results) {
-            console.log("Succesfully Updated")
-            console.table(viewEmp());})
-    })
-}
+    function addEmp(){
+        db.query(`Select * from employee;`, function(err, results){
+            var manList = results.map((employee)=> ({
+                    name : employee.first_name + " " + employee.last_name,
+                    value : employee.id
+            }))
+        db.query(`Select * from role;`, function(err, results){
+            var roleList = results.map((role)=>({
+                    name : role.title,
+                    value: role.id
+            }))
+    
+            inquirer.prompt ([
+                
+    {
+              type: 'input',
+              message: "Please enter the Employee's first Name.",
+              name: 'firstname',
+            },
+            {
+                type: 'input',
+                message: "Please enter the Employee's last Name.",
+                name: 'lastname',
+              },
+    
+    {
+                        type: 'list',
+                        message: "Please select Employee’s Role.",
+                        choices : roleList,
+                        name: 'empRole',
+                      },
+                      {
+                          type: 'list',
+                          message: "Please select the employee's new role ID.",
+                          choices : manList,
+                          name: 'empMan',
+                        }
+            ])
+            .then (answers => {
+                db.query(`INSERT into employee(first_name, last_name, role_id, manager_id)
+            VALUES("${answers.firstname}","${answers.lastname}","${answers.empRole}", "${answers.empMan}");`, function (err, results) {
+                console.log("Succesfully Updated")
+                console.table(viewEmp());})
+            })
+        } )
+        })
+    }
+    
+    
 
 function updateRole(){
     db.query(`Select * from employee;`, function(err, results){
