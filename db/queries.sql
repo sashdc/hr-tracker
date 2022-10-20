@@ -27,7 +27,7 @@ SELECT
      JOIN role ON role.id=a.role_id
      JOIN department ON role.department_id = department.id;
 
---      WHEN I choose to add a department
+--  WHEN I choose to add a department
 -- THEN I am prompted to enter the name of the department and that department is added to the database
 
 INSERT into department(name)
