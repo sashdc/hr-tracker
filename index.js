@@ -1,8 +1,10 @@
+// imports necessary libraries for questions, asking, and rendering tables
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
 const { exit } = require('process');
 
+// creates credentials to access mysql database
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -22,6 +24,7 @@ const db = mysql.createConnection(
                                                                              `)
   );
 
+//   main menu of options
 const openingQuest =[ 
     {
         type: 'list',
@@ -31,6 +34,7 @@ const openingQuest =[
       }
 ]
 
+// inquirer question for new department 
 const newdDept = [
     {
       type: 'input',
@@ -38,31 +42,7 @@ const newdDept = [
       name: 'deptname',
     }
 ]
-
-
-const newEmp = [
-        {
-          type: 'input',
-          message: "Please enter the Employee's first Name.",
-          name: 'firstname',
-        },
-        {
-            type: 'input',
-            message: "Please enter the Employee's last Name.",
-            name: 'lastname',
-          },
-          {
-            type: 'input',
-            message: "Please enter the Employee's Role ID.",
-            name: 'role',
-          },
-          {
-            type: 'input',
-            message: "Please enter the Employee's Manager ID.",
-            name: 'manager',
-          }
-        ]
-
+// main menu and functions from each choice
 function init(){
     inquirer.prompt (openingQuest)
     .then
@@ -91,14 +71,14 @@ function init(){
         exit()
     }
     })}
-
+// db query to view all departments
 function viewDepts(){
         db.query(`SELECT id AS ID, name AS "Department" 
         FROM department;`, function (err, results) {
         console.table(results);});
     setTimeout(() => {init();}, 1000)
     }
-
+// db query to view all roles
 function viewRoles(){
         db.query(`SELECT
         role.id as "Role ID",
@@ -110,7 +90,7 @@ function viewRoles(){
         console.table(results);});
     setTimeout(() => {init();}, 1000)
     }
-
+// db query to view all employees
 function viewEmp(){
     db.query(`SELECT
     a.id as "ID",
@@ -126,7 +106,7 @@ function viewEmp(){
         console.table(results);});
     setTimeout(() => {init();}, 1000)
 }
-
+// function to add a new department
 function addDept(){
     inquirer.prompt (newdDept)
     .then(answers => {
@@ -135,7 +115,7 @@ function addDept(){
             console.table(viewDepts());})
     })
 }
-
+// function to add a new role
 function addRole(){
     db.query(`Select * from department;`, function(err, results){
         var deptList = results.map((department)=> ({
@@ -170,7 +150,7 @@ function addRole(){
         })
     } )
     }
-
+// function to add a new employee
     function addEmp(){
         db.query(`Select * from employee;`, function(err, results){
             var manList = results.map((employee)=> ({
@@ -219,8 +199,7 @@ function addRole(){
         })
     }
     
-    
-
+// fnction to update an employee's role
 function updateRole(){
     db.query(`Select * from employee;`, function(err, results){
         console.log(results)
@@ -263,5 +242,5 @@ function updateRole(){
     } )
     })
 }
-
+// init fnction to set things off
 init()
