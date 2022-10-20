@@ -235,7 +235,6 @@ function updateRole(){
                 console.log("Succesfully Updated")
                 console.table(viewEmp())
             })
-            console.log(answers)
         })
     } )
     })
