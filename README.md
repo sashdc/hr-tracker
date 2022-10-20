@@ -13,13 +13,13 @@ NodeJS and a command line application will be needed to use the product.
 The application is run by executing <node index.js> in the CLI when in the appropriate directory.
 Once started, the user will be presented with a list of options as to how to proceed. The user can view a selection of tables, or add to/edit them as needed. After every task is completed, the updated table is presented, and the main menu returns.
 
-![Screenshot of CLI work and HTML result](./assets/images/screenshot.jpg "Team Profile Generator")
+![Screenshot of CLI workflow](./assets/images/screenshot.jpg "HR Tracker")
 
 ### Links
 
  [Github Repo](https://github.com/sashdc/hr-tracker)
  
- [Walkthrough Video](https://drive.google.com/file/d/13uRr5rhECB3i4q0DHX2-naE-lwqJImal/view)
+ [Walkthrough Video](https://drive.google.com/file/d/17J_u0amWWS1mq9HCX-9FMV33-hRGEtl8/view)
 
  ## Credits
 
