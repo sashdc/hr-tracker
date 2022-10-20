@@ -3,7 +3,6 @@ const mysql = require('mysql2');
 const cTable = require('console.table');
 const { exit } = require('process');
 
-
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -40,23 +39,6 @@ const newdDept = [
     }
 ]
 
-const newRole = [
-    {
-      type: 'input',
-      message: "Please enter the Role Title.",
-      name: 'name',
-    },
-    {
-        type: 'input',
-        message: "Please enter Role salary.",
-        name: 'salary',
-      },
-      {
-        type: 'input',
-        message: "Please enter Role department.",
-        name: 'department',
-      }
-    ]
 
 const newEmp = [
         {
@@ -155,14 +137,39 @@ function addDept(){
 }
 
 function addRole(){
-    inquirer.prompt (newRole)
-    .then(answers => {
-        db.query(`INSERT into role(title, salary, department_id)
-        VALUES("${answers.name}","${answers.salary}","${answers.department}");`, function (err, results) {
+    db.query(`Select * from department;`, function(err, results){
+        var deptList = results.map((department)=> ({
+                name : department.name, 
+                value : department.id
+        }))
+
+        inquirer.prompt ([
+            {
+                    type: 'input',
+                    message: "Please enter new role title.",
+                    name: 'newRole',
+                  },
+            {
+                    type: 'input',
+                    message: "Please enter new role salary.",
+                    name: 'newRoleSalary',
+                  },
+
+                  {
+                      type: 'list',
+                      message: "Please select the new role’s department.",
+                      choices : deptList,
+                      name: 'newRoleDept',
+                    }
+        ])
+        .then (answers => {
+            db.query(`INSERT into role(title, salary, department_id)
+            VALUES("${answers.newRole}","${answers.newRoleSalary}","${answers.newRoleDept}");`, function (err, results) {
             console.log("Succesfully Updated")
             console.table(viewRoles());})
-    })
-}
+        })
+    } )
+    }
 
 function addEmp(){
     inquirer.prompt (newEmp)
